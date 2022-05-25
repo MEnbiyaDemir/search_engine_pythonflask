@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body{background-image: url(https://wallpaperaccess.com/full/1771974.jpg);
+        background-repeat: no-repeat;
+    background-size: 100%;
+      }
+      .mtr{margin-top: 200px;}
+    </style>
+</head>
+<body>
+    <form  action="/admin" method="post">
+        <button style="margin-left: 3%; visibility: hidden;" type="submit" class="btn btn-danger mt-3 ml-3">ADMIN</button>
+    </form>
+    
+    <form  action="/search" method="post">
+        <div class="form-group mx-auto mtr" style="width: 300px;">
+          <label for="exampleInputEmail1">Academic Search Engine</label>
+          <input type="text" class="form-control" id="searchtext" name="arama" placeholder="search...">
+          <button type="submit" class="btn btn-primary mt-3" >Ara</button>
+        </div>
+      </form>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body{background-image: url(https://wallpaperaccess.com/full/1771974.jpg);
+        background-repeat: no-repeat;
+    background-size: 100%;
+    display: flex;
+      }
+      .mtr{display: flex;
+    flex-direction: column;}
+
+    
+    .form-select{
+      height: 100px;
+    }
+    .form-label{
+      width: 400px;
+    }
+    .column {
+      margin-top: 4%;
+  float: left;
+  width: 70%;
+  padding: 10px;
+  margin-left: 5%;
+  background-color: rgba(237, 219, 105, 0.6);
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</head>
+<body onload="xmlgetir(),kisisil(),yayinsil(),yayincisil()">
+  <form  action="/" style="width: 11%; float:left;">
+    <button type="submit" style="margin-left: 3%"  class="btn btn-danger mt-3 ml-3">ANASAYFA</button>
+</form>
+
+
+<div class="column" id="bilgi" >
+
+    <form action="/xml" method="post" style="float:left;" >
+        <div  class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">URL</label>
+          <input style="float: left;" type="text" class="form-control" id="urltext" name="urltext">
+        </div>
+        <button style="float: left;" type="submit" class="btn btn-primary">xml ekle</button>
+      </form>
+
+      <form  action="/" style="margin-left: 30%; width: 11%; float:left;">  
+        <button type="submit" style="margin-left: 3%"  class="btn btn-danger mt-3 ml-3">HER ŞEYİ SİL</button>
+    </form>
+<br><br><br><br><br>
+      <p>XML DOSYASI EKLİ KİŞİLER</p>
+        <select class="form-select" size="3" aria-label="size 3 select example" id="isim" name="comp_select">
+         <!-- <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option> -->
+        </select>
+        <br>
+
+        <form action="/deleteperson" method="post">
+        <p>KİŞİ SİL</p>
+        <select class="form-select" size="3" aria-label="size 3 select example" id="persons" name="comp_select_persons">
+          <!-- <option selected>Open this select menu</option>
+           <option value="1">One</option>
+           <option value="2">Two</option> -->
+         </select>
+         <button type="submit" class="btn btn-primary">sil</button>
+        </form>
+         <br>
+         
+         <form action="/deletebook" method="post">
+        <p>YAYIN SİL</p>
+        <select class="form-select" size="3" aria-label="size 3 select example" id="books" name="comp_select_books">
+          <!-- <option selected>Open this select menu</option>
+           <option value="1">One</option>
+           <option value="2">Two</option> -->
+         </select>
+        <button type="submit" class="btn btn-primary">sil</button>
+        </form>
+
+        <br>
+        <form action="/deletepublisher" method="post">
+          <p>YAYINEVİ SİL</p>
+          <select class="form-select" size="3" aria-label="size 3 select example" id="publishers" name="comp_select_publishers">
+            <!-- <option selected>Open this select menu</option>
+             <option value="1">One</option>
+             <option value="2">Two</option> -->
+           </select>
+          <button type="submit" class="btn btn-primary">sil</button>
+          </form>
+
+    </div>
+<script>
+ function xmlgetir(){
+
+var isimler = {{ xmlyes|tojson }}; 
+for (i = 0; i < isimler.length; i = i+1) { 
+  document.getElementById('isim').innerHTML += "<option value='" +  isimler[i].n.pid+ "'>" + isimler[i].n.name + " - " + isimler[i].n.pid  + "</option> ";
+ }
+}
+function kisisil(){
+
+var isimler = {{ kisiler|tojson }}; 
+for (i = 0; i < isimler.length; i = i+1) { 
+  document.getElementById('persons').innerHTML += "<option value='" +  isimler[i].n.pid+ "'>" + isimler[i].n.name + " - " + isimler[i].n.pid  + "</option> ";
+ }
+}
+function yayinsil(){
+
+var isimler = {{ yayinlar|tojson }}; 
+for (i = 0; i < isimler.length; i = i+1) { 
+  document.getElementById('books').innerHTML += "<option value='" +  isimler[i].n.bookid+ "'>" + isimler[i].n.title + " - " + isimler[i].n.bookid  + "</option> ";
+ }
+}
+function yayincisil(){
+
+var isimler = {{ yayincilar|tojson }}; 
+for (i = 0; i < isimler.length; i = i+1) { 
+  document.getElementById('publishers').innerHTML += "<option value='" +  isimler[i].n.name+ "'>" + isimler[i].n.name + "</option> ";
+ }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body{
+        background: linear-gradient( rgba(0, 0, 0, 0.77), rgba(0, 0, 0, 0.77) ), url(https://wallpaperaccess.com/full/1771974.jpg);
+          background-repeat: repeat-y;
+    background-size: 100%; background-blend-mode: saturation;
+      }
+      .mtr{margin-top: 200px;}
+
+      html {
+    margin-left:8%;
+    margin-right:8%;
+    
+    background-color: #9e9e9e;
+    
+}
+html {height:100%} 
+body {min-height:100%}
+
+      div.transbox {
+  margin-left: 11%;
+  background-color: rgba(237, 219, 105, 0.6);
+  border: 0px solid black;
+  opacity: 0.6;
+  margin-right: 11%;
+}
+div.transbox a {
+  margin: 1%;
+  font-weight: bold;
+  
+  
+}
+
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  margin-left: 11%;
+  margin-right: 11%;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+
+ .tab{
+  
+  background-color: #bbe0ab !important;
+  color: white 
+  }
+  .nav-link{
+  
+  color: black;
+  }
+
+A:link { COLOR: black; TEXT-DECORATION: none; font-weight: normal }
+A:visited { COLOR: black; TEXT-DECORATION: none; font-weight: normal }
+A:active { COLOR: black; TEXT-DECORATION: none }
+A:hover { COLOR: blue; TEXT-DECORATION: none; font-weight: none }
+.nobr { white-space: nowrap }
+
+    </style>  
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</head>
+
+
+
+
+
+
+
+<body onload="kisiler()">
+    <form  action="/" style="width: 11%; float:left;">
+        <button type="submit" style="margin-left: 11%"  class="btn btn-danger mt-3 ml-3">ANASAYFA</button>
+    </form>
+    
+       <form action="/search" method="post">
+        <div >
+          <input type="text" class="form-control" id="searchtext" placeholder="" style="width: 300px;margin-top:15px; float:left;" value="{{arama_sorgusu}}" onclick="this.select()" name="arama">
+          <button type="submit" class="btn btn-primary mt-3 " style="margin-top:15px; float:left;">Ara</button>
+        </div></form>
+        <br><br><br><br><br>
+
+             
+        <div class="tab">
+          
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item " role="presentation">
+              <button class="nav-link active" onclick="kisiler()" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Kişiler</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" onclick="yayinlar()" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Yayınlar</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" onclick="yayinevleri()" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Yayınevi</button>
+            </li>
+          </ul>
+          
+        </div>
+
+
+
+        <div class="transbox" id="log" >
+          
+          
+        </div>
+
+        
+        
+        <script type="text/javascript">
+  
+          function kisiler(){
+            
+          var counts = {{ sonuc|tojson }};
+           baseURL = "{{ url_for('person') }}";
+
+        if(counts.length == 0){
+          document.getElementById('log').innerHTML = "(Sonuc bulunamadı)"}
+        else{
+          document.getElementById('log').innerHTML = ""}
+            console.log(counts.length)
+        var bayrak = 0;
+          for (i = 0; i < counts.length; i = i+1) {
+           var pid = counts[i].pid;
+           var name = counts[i].name;
+           if(pid == null || name == null){
+            continue;}
+            bayrak = 1
+              var url = baseURL + pid;
+            //document.write("<a href=\"" + url + "\">" + name + "</a><br>");
+            document.getElementById('log').innerHTML += "<a href=\"" + url + "\">" + name + "</a><br>";
+            }
+          if(bayrak == 0){document.getElementById('log').innerHTML = "(Sonuc bulunamadı)"}
+          }
+          function yayinlar(){
+          
+          var counts = {{ sonuc|tojson }};
+           baseURL = "{{ url_for('book') }}";
+
+        if(counts.length == 0){
+          document.getElementById('log').innerHTML = "(Sonuc bulunamadı)"}
+        else{
+          document.getElementById('log').innerHTML = ""}
+            console.log(counts.length)
+        var bayrak = 0;
+          for (i = 0; i < counts.length; i = i+1) {
+           var bookid = counts[i].bookid;
+           var baslik = counts[i].baslik;
+           if(bookid == null || baslik == null){
+            continue;}
+            bayrak = 1
+              var url = baseURL + bookid;
+            //document.write("<a href=\"" + url + "\">" + name + "</a><br>");
+            document.getElementById('log').innerHTML += "<a href=\"" + url + "\">" + baslik + "</a><br>";
+            }
+          if(bayrak == 0){document.getElementById('log').innerHTML = "(Sonuc bulunamadı)"}
+
+        
+          }
+          function yayinevleri(){
+            
+          var counts = {{ sonuc|tojson }};
+           baseURL = "{{ url_for('publisher') }}";
+
+        if(counts.length == 0){
+          document.getElementById('log').innerHTML = "(Sonuc bulunamadı)"}
+        else{
+          document.getElementById('log').innerHTML = ""}
+            console.log(counts.length)
+        var bayrak = 0;
+          for (i = 0; i < counts.length; i = i+1) {
+           var bookid = counts[i].bookid;
+           var name = counts[i].name;
+           var pid = counts[i].pid
+           if(bookid != null || pid != null){
+            continue;}
+            bayrak = 1
+              var url = baseURL + name;
+            //document.write("<a href=\"" + url + "\">" + name + "</a><br>");
+            document.getElementById('log').innerHTML += "<a href=\"" + url + "\">" + name + "</a><br>";
+            }
+          if(bayrak == 0){document.getElementById('log').innerHTML = "(Sonuc bulunamadı)"}
+
+        
+            
+          }
+
+        </script>
+</body>
+</html>

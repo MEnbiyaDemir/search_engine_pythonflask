@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        const myForm = $("#myForm");
+    $(".submit").click(function(){
+    
+      myForm.submit();
+    
+    });
+    });
+    </script>
+<style>
+    body{
+        background: linear-gradient( rgba(0, 0, 0, 0.77), rgba(0, 0, 0, 0.77) ), url(https://wallpaperaccess.com/full/1771974.jpg);
+          background-repeat: repeat-y;
+    background-size: 100%; background-blend-mode: saturation;
+      }
+html {
+    margin-left:8%;
+    margin-right:8%;
+    
+    background-color: #9e9e9e;
+    
+}
+html {height:100%} 
+body {min-height:100%}
+
+.column {
+  float: left;
+  width: 70%;
+  padding: 10px;
+  margin-left: 5%;
+  background-color: rgba(237, 219, 105, 0.6);
+}
+A:link { COLOR: black; TEXT-DECORATION: none; font-weight: normal }
+A:visited { COLOR: black; TEXT-DECORATION: none; font-weight: normal }
+A:active { COLOR: black; TEXT-DECORATION: none }
+A:hover { COLOR: blue; TEXT-DECORATION: none; font-weight: none }
+.nobr { white-space: nowrap }
+</style>
+
+</head>
+
+<body>
+    
+    <form  action="/" style="width: 11%; float:left;">
+        <button type="submit" style="margin-left: 11%"  class="btn btn-danger mt-3 ml-3">ANASAYFA</button>
+    </form>
+    <br>
+    key: <i>{{pid}}</i>
+    <br>
+    <br>
+    <br>
+    
+    <hr style="height:4px;border-width:0;color:gray;background-color:gray">
+   
+    <div id="baslik" class="bg-success p-2 text-white" style="margin-left: 4%; margin-right: 4%; line-height: 0.8;  font-size: 23px;">title</div>
+
+    <p style="display:inline; float:left; margin-left: 4%;">> </p>
+    <p style="display:inline; float:left;"><a href="{{ url_for('index')}}">Anasayfa</a></p>
+    <p style="display:inline; float:left;">> </p>
+    <form style="display:inline; float:left" action = "/search" method = "post" id="myForm"><div class="submit"><a href="#">Books</a></div></form> 
+    <!--<div class="vl"></div>-->
+    <br><br><br>
+   
+  
+
+ 
+   
+  <div class="row">
+    <div class="column" id="bilgi" >
+    </div>
+  </div>
+  
+<script>
+document.getElementById('baslik').innerHTML = "";
+var counts = {{ sonuc|tojson }};
+
+var title = counts[0].n.title;
+var tur = counts[0].n.tur;
+var year = counts[0].n.year;
+var pages = counts[0].n.pages;
+var ee = counts[0].n.ee;
+
+var turtext;
+if(tur == 'article'){turtext = 'An article from a journal or magazine.'}
+if(tur == 'inproceedings'){turtext = 'A paper in a conference or workshop proceedings.'}
+if(tur == 'proceedings'){turtext = 'The proceedings volume of a conference or workshop.'}
+if(tur == 'book'){turtext = 'An authored monograph or an edited collection of articles.'}
+if(tur == 'incollection'){turtext = 'A part or chapter in a monograph.'}
+if(tur == 'phdthesis'){turtext = 'A PhD thesis.'}
+if(tur == 'mastersthesis'){turtext = "A Master's thesis."}
+if(tur == 'www '){turtext = 'A web page.'}
+
+
+document.getElementById('baslik').innerHTML = title ;
+document.getElementById('bilgi').innerHTML += "<p><b>" + "Tür: </b>"+ tur + " - " + turtext + "</p>";
+document.getElementById('bilgi').innerHTML += "<p><b>" + "Yıl: </b>"+ year + "</p>";
+document.getElementById('bilgi').innerHTML += "<p><b>" + "Sayfa: </b>"+pages + "</p>";
+document.getElementById('bilgi').innerHTML += "<p><a><b>Electronic edition via DOI: </b></a><a style='COLOR: blue' href='"+ ee +"'>"+ ee +"</a></p>";
+
+document.getElementById('bilgi').innerHTML += "<p style='float:left;'><b>Yazarlar: </b></p>";
+
+var aut = {{ authors|tojson }};
+for (i = 0; i < aut.length; i = i+1) { 
+  if(i == aut.length-1){document.getElementById('bilgi').innerHTML += "<a>" + aut[i].a.name + "</a>";}
+  else{document.getElementById('bilgi').innerHTML += "<a>" + aut[i].a.name + "</a>, ";}
+  
+  }
+
+var xx = {{ tt|tojson }}; 
+var pidden = {{pid2|tojson}};
+
+if(xx.length == 0){document.getElementById('bilgi').innerHTML += "<br><br><p><b>" + "Yayın Yeri: </b>"+pidden + "</p>";}
+else{
+var yayinyer = xx[0].a.name;
+document.getElementById('bilgi').innerHTML += "<br><br><p><b>" + "Yayın Yeri: </b>"+yayinyer + "</p>";
+}
+
+
+</script>
+</body>
+</html>
